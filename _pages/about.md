@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: <a href='https://cst.qd.sdu.edu.cn/'>Shandong University</a>. Address. Contacts. Motto. Etc.
 
 profile:
   align: right
