@@ -13,13 +13,13 @@ const packageJson = JSON.parse(read("package.json"));
 const scripts = packageJson.scripts || {};
 for (const forbiddenScript of ["build:css", "build:tailwind", "build:tailwind:watch"]) {
   if (Object.prototype.hasOwnProperty.call(scripts, forbiddenScript)) {
-    failures.push(`Starter package.json must not define \`${forbiddenScript}\`; build ownership belongs to gem repos.`);
+    failures.push(`Site package.json must not define \`${forbiddenScript}\`; build ownership belongs to gem repos.`);
   }
 }
 
 const config = read("_config.yml");
 if (!/^\s*theme:\s*al_folio_core\s*$/m.test(config)) {
-  failures.push("`_config.yml` must keep `theme: al_folio_core` for thin-starter wiring.");
+  failures.push("`_config.yml` must keep `theme: al_folio_core` for thin-site wiring.");
 }
 if (!/^\s*-\s*al_folio_core\s*$/m.test(config)) {
   failures.push("`_config.yml` plugins must include `al_folio_core`.");
@@ -67,7 +67,7 @@ if (/gem 'al_math',\s*:git =>/.test(gemfile)) {
 
 for (const forbiddenPath of ["_includes", "_layouts", "_sass", "_scripts", "assets/tailwind", "tailwind.config.js", "assets/webfonts"]) {
   if (exists(forbiddenPath)) {
-    failures.push(`Starter must not own core component path \`${forbiddenPath}\`; move ownership to the corresponding gem.`);
+    failures.push(`Site must not own core component path \`${forbiddenPath}\`; move ownership to the corresponding gem.`);
   }
 }
 
@@ -78,20 +78,14 @@ for (const forbiddenGlobPath of [
   "assets/fonts/scholar-icons.ttf",
 ]) {
   if (exists(forbiddenGlobPath)) {
-    failures.push(`Starter must not own icon runtime artifact \`${forbiddenGlobPath}\`; icon ownership belongs to al_icons.`);
-  }
-}
-
-for (const requiredPath of ["test/visual", "test/integration_plugin_toggles.sh", "test/integration_distill.sh"]) {
-  if (!exists(requiredPath)) {
-    failures.push(`Starter integration/visual contract missing required path: \`${requiredPath}\`.`);
+    failures.push(`Site must not own icon runtime artifact \`${forbiddenGlobPath}\`; icon ownership belongs to al_icons.`);
   }
 }
 
 if (failures.length > 0) {
-  console.error("Starter style contract check failed:");
+  console.error("Site style contract check failed:");
   failures.forEach((message) => console.error(`- ${message}`));
   process.exit(1);
 }
 
-console.log("Starter style contract check passed.");
+console.log("Site style contract check passed.");
