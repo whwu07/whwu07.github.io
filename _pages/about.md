@@ -12,7 +12,7 @@ profile:
     <p>Shandong University</p>
     <p>Qingdao, China</p>
 
-selected_papers: false # includes a list of papers marked as "selected={true}"
+selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 
 announcements:
@@ -27,3 +27,9 @@ latest_posts:
 ---
 
 I am currently a PhD student at [Shandong University](https://www.sdu.edu.cn/).
+
+## Contact
+
+Email: [{{ site.data.socials.email }}](mailto:{{ site.data.socials.email }})
+
+GitHub: [{{ site.data.socials.github_username }}](https://github.com/{{ site.data.socials.github_username }})
