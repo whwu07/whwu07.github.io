@@ -10,13 +10,16 @@ class Navigation(HTMLParser):
         super().__init__()
         self.in_nav = False
         self.links = set()
+        self.all_links = set()
 
     def handle_starttag(self, tag, attrs):
         if tag == "nav":
             self.in_nav = True
-        if self.in_nav and tag == "a":
+        if tag == "a":
             href = dict(attrs).get("href", "")
             parsed = urlparse(href)
+            self.all_links.add(parsed.path)
+        if self.in_nav and tag == "a":
             if href and not parsed.netloc and not parsed.fragment:
                 self.links.add(parsed.path)
 
@@ -51,7 +54,11 @@ assert "Improved Linear Key Recovery Attacks on PRESENT" in publications
 assert "10.1109/TIT.2024.3474701" in publications
 assert "QARMAv2" not in publications, "Accepted work is not a published paper"
 blog = pages["blog"].read_text(encoding="utf-8")
-assert 'class="post-title"' not in blog, "The blog should remain empty"
+blog_links = Navigation()
+blog_links.feed(blog)
+assert not any(path.startswith("/blog/") and path != "/blog/" for path in blog_links.all_links), (
+    "The empty blog must not link to articles or template archives"
+)
 for removed in ("projects", "repositories", "cv", "teaching", "people", "books", "news", "plugins"):
     assert not (site / removed / "index.html").exists(), f"Unused page still published: {removed}"
 for removed in ("assets/json/resume.json", "assets/pdf/example_pdf.pdf", "assets/img/prof_pic_color.png"):
